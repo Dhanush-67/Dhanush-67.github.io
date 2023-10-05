@@ -5,7 +5,7 @@
 
 
 ## Projects
-- [Interactive Scene](Space shooter)
+- [Interactive Scene](Spaceshooter)
 
 
 ## Example Markdown Link
