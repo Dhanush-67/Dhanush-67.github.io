@@ -1,19 +1,11 @@
 // Ball object Notation Demo
 // Oct 5, 2023
 
-let theBall = {
-  x: 100,
-  y: 100,
-  radius: 25,
-  r: 255,
-  g: 0,
-  b: 0,
-  dx: 4,
-  dy: 3,
-}
+let theBall
 
 function setup() {
   createCanvas(windowWidth, windowHeight);
+  theBall = spawnBall();
 }
 
 function draw() {
@@ -23,6 +15,24 @@ function draw() {
   teleportBall()
 }
 
+function keytyped(){
+  if (key === " "){
+    theBall = spawnBall()
+  }
+}
+
+function spawnBall(){
+  let theBall = {
+    x: random(width),
+    y: random(height),
+    radius: random(15,30),
+    r: random(255),
+    g: random(255),
+    b: random(255),
+    dx: (-5,5),
+    dy: (-5,5),
+  }
+}
 function moveBall(){
   theBall.x += theBall.dx;
   theBall.y += theBall.dy;
@@ -34,13 +44,17 @@ function displayBall(){
 }
 
 function teleportBall(){
-  if (theBall.x > windowWidth){
-    theBall.x = 0;
+  if (theBall.x - theBall.radius > windowWidth){
+    theBall.x = 0 - theBall.radius;
   }
-  if (theBall.y > windowHeight){
+
+  else if (theBall.x <0 - theBall.radius){
+    theBall.x = width + theBall.radius;
+  }
+  if (theBall.y - theBall.radius > windowHeight){
     theBall.y = 0;
   }
-  if (theBall.x - theBall.radius){
-    theBall.x < windowHeight
+  else if (theBall.y - theBall.radius){
+    theBall.y = height + theBall.radius;
   }
 }
