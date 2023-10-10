@@ -6,7 +6,7 @@
 
 ## Projects
 - [Interactive Scene](Spaceshooter)
--[Arrays/Objects Assignment](arrays-objects-assn)
+- [Arrays/Objects Assignment](arrays-objects-assn)
 
 
 ## Example Markdown Link
