@@ -1,7 +1,7 @@
 function Asteroid(pos){
   this.pos = createVector(random(0,150),random(height));
   
-  this.vel = p5.Vector.random2D();
+  //this.vel = p5.Vector.random2D();
   this.r = random(2,20);
     
   this.update = function(){
