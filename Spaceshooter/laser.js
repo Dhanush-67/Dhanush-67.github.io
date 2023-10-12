@@ -1,6 +1,6 @@
 function Laser(spos,angle){
   this.pos = createVector(spos.x,spos.y);
-  //this.vel = p5.Vector.fromAngle(angle);
+  this.vel = p5.Vector.fromAngle(angle);
   this.vel.mult(7);
     
   this.update = function(){
