@@ -8,9 +8,12 @@
 //global variables
 let x;
 let y;
+let ballArray = [];
 
 function setup() {
   createCanvas(windowWidth, windowHeight);
+  let theBall = spawnBall();
+  ballArray.push(theBall);
 }
 
 function draw() {
@@ -19,12 +22,28 @@ function draw() {
   moveCircle();
 }
 
+function spawnBall(){
+  let ball = {
+    x : random (height),
+    y : random(width),
+  };
+  return ball;
+}
+
+
 function displayCircle(){
-  fill("red");
-  circle(x,y,30);
+  for(let i = 0; 1<ballArray.length; i++){
+    let theBall = ballArray[i];
+    circle(theBall.x,theBall.y,100);
+  }
 }
 
 function moveCircle(){
-  x = mouseX;
-  y = mouseY;
+  x = random(10,50);
+  y = random(height);
+}
+
+function mousePressed(){
+  let theBall = spawnBall();
+  ballArray.push(theBall);
 }
