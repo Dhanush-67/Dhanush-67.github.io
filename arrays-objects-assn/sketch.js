@@ -24,17 +24,21 @@ function draw() {
 
 function spawnBall(){
   let ball = {
-    x : random (height),
-    y : random(width),
+    x : random (50,500),
+    y : random(50,500),
+    r : random(255),
+    g : random(255),
+    b : random(255),
   };
   return ball;
 }
 
 
 function displayCircle(){
-  for(let i = 0; 1<ballArray.length; i++){
+  for(let i = 0; i<ballArray.length; i++){
     let theBall = ballArray[i];
-    circle(theBall.x,theBall.y,100);
+    fill(theBall.r, theBall.g, theBall.b);
+    circle(theBall.x,theBall.y,50);
   }
 }
 
