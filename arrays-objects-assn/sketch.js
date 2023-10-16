@@ -6,48 +6,38 @@
 // - describe what you did to take this project "above and beyond"
 
 //global variables
-let x;
-let y;
-let ballArray = [];
+let turrets = [];
 
 function setup() {
   createCanvas(windowWidth, windowHeight);
-  let theBall = spawnBall();
-  ballArray.push(theBall);
+  let theTurret = spawnTurret(0,windowHeight/2);
+  turrets.push(theTurret);
+  theTurret = spawnTurret(windowWidth/2,0);
+  turrets.push(theTurret);
+  theTurret = spawnTurret(windowWidth-50,windowHeight/2);
+  turrets.push(theTurret);
+  theTurret = spawnTurret(windowWidth/2,windowHeight-50);
+  turrets.push(theTurret);
 }
 
 function draw() {
   background(220);
-  displayCircle();
-  moveCircle();
+  displayTurret();
 }
 
-function spawnBall(){
-  let ball = {
-    x : random (50,500),
-    y : random(50,500),
-    r : random(255),
-    g : random(255),
-    b : random(255),
+function spawnTurret(xpos,ypos){
+  let theTurret = {
+    x : xpos,
+    y : ypos,
+    size : 50
   };
-  return ball;
+  return theTurret;
 }
 
-
-function displayCircle(){
-  for(let i = 0; i<ballArray.length; i++){
-    let theBall = ballArray[i];
-    fill(theBall.r, theBall.g, theBall.b);
-    circle(theBall.x,theBall.y,50);
+function displayTurret(){
+  for(let i = 0; i <turrets.length; i++ ){
+    let theTurret = turrets[i];
+    square(theTurret.x,theTurret.y,theTurret.size);
   }
 }
 
-function moveCircle(){
-  x = random(10,50);
-  y = random(height);
-}
-
-function mousePressed(){
-  let theBall = spawnBall();
-  ballArray.push(theBall);
-}
