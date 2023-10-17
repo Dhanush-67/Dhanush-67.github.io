@@ -10,20 +10,20 @@ let turrets = [];
 
 function setup() {
   createCanvas(windowWidth, windowHeight);
-  let theTurret = spawnTurret(0,windowHeight/2);
-  turrets.push(theTurret);
-  theTurret = spawnTurret(windowWidth/2,0);
-  turrets.push(theTurret);
-  theTurret = spawnTurret(windowWidth-50,windowHeight/2);
-  turrets.push(theTurret);
-  theTurret = spawnTurret(windowWidth/2,windowHeight-50);
-  turrets.push(theTurret);
+  let xcor = [0,windowWidth/2,windowWidth-50,windowWidth/2];
+  let ycor = [windowHeight/2,0,windowHeight/2,windowHeight-50];
+  for(let i = 0; i < 4; i++){
+    let theTurret = spawnTurret(xcor[i],ycor[i]);
+    turrets.push(theTurret);
+  }
 }
 
 function draw() {
   background(220);
   displayTurret();
 }
+
+
 
 function spawnTurret(xpos,ypos){
   let theTurret = {
