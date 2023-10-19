@@ -11,10 +11,23 @@ let turretImgUp;
 let turretImgDown;
 let turretImgLeft;
 let turretImgRight;
+
 let backgroundImg;
+let state = "start game";
+let playButton;
+let playButtonSize = 0.5;
 let screenWidth = 1280;
 let screenHeight = 720;
+let score = 0;
+
 let ufoImg;
+let ufoSize = 0.3;
+let ufoPos;
+let ufoDx = 0;
+let ufoDy = 0;
+let ufoX;
+let ufoY;
+
 
 function preload(){
   turretImgUp = loadImage("Turret Image up.png");
@@ -23,6 +36,7 @@ function preload(){
   turretImgRight = loadImage("Turret Image right.png");
   backgroundImg = loadImage("background Image.png");
   ufoImg = loadImage("ufo.png");
+  playButton = loadImage("Play Button.png");
 }
 
 function setup() {
@@ -33,30 +47,89 @@ function setup() {
     let theTurret = spawnTurret(xcor[i],ycor[i]);
     turrets.push(theTurret);
   }
+  ufoPos = createVector(screenWidth/2, screenHeight/2);
 }
 
 function draw() {
+  if (state === "start game"){
+    startGameScreen()
+  }
+
+  if (state === "game"){
   background(backgroundImg);
-  image(ufoImg,screenWidth/2,screenHeight/2,ufoImg.width*0.3,ufoImg.height*0.3);
   displayBoundary();
   displayTurret();
-  //displayUfo();
+  displayUfo();
+  moveUfo();
+  displayScore();
+  }
+}
+
+function startGameScreen(){
+  push()
+  background(backgroundImg)
+  imageMode(CENTER)
+  image(playButton,screenWidth/2,screenHeight/2,playButton.width*playButtonSize,playButton.height*playButtonSize)
+  if (mouseIsPressed === true && state === "start game"){
+    state = "game"
+  }
+  pop()
+}
+
+function displayScore(){
+  push()
+  textSize(50)
+  textStyle("BOLD")
+  text("Score:",50,50)
+  pop()
+}
+
+function displayUfo(){
+  push()
+  imageMode(CENTER);
+  ufoPos.x = constrain(ufoPos.x,115,1165)
+  ufoPos.y = constrain(ufoPos.y,105,610)
+  image(ufoImg,ufoPos.x,ufoPos.y,ufoImg.width*ufoSize,ufoImg.height*ufoSize)
+  pop()
+}
+
+function moveUfo(){
+    ufoPos.x +=  ufoDx
+    ufoPos.y += ufoDy
+}
+
+
+function keyPressed() {
+   if (keyCode === 68) {
+    ufoDx = 4;
+    ufoDy = 0;
+   } else if (keyCode === 65) {
+     ufoDx = -4;
+     ufoDy = 0;
+   } else if (keyCode === 87) {
+     ufoDy = -4;
+     ufoDx = 0;
+   }
+   else if (keyCode === 83){
+     ufoDy = 4;
+     ufoDx = 0;
+   }
 }
 
 
 function displayBoundary(){
-  stroke("red");
+  push()
+  stroke("blue");
   strokeWeight(4);
   let l1 = createVector(80,80);
   let l2 = createVector(80,640);
   let l3 = createVector(1200,80);
   let l4 = createVector(1200,640);
-  line(l1.x,l1.y,l2.x,l2.y);
-  line(l1.x,l1.y,l3.x,l3.y);
-  line(l2.x,l2.y,l4.x,l4.y);
-  line(l3.x,l3.y,l4.x,l4.y);
-
-  //rect(50,30,1230,670);
+  wall1 = line(l1.x,l1.y,l2.x,l2.y);
+  wall2 = line(l1.x,l1.y,l3.x,l3.y);
+  wall3 = line(l2.x,l2.y,l4.x,l4.y);
+  wall4 = line(l3.x,l3.y,l4.x,l4.y);
+  pop()
 }
 
 function spawnTurret(xpos,ypos){
@@ -73,7 +146,6 @@ function displayTurret(){
   for(let i = 0; i <turrets.length; i++ ){
     let theTurret = turrets[i];
     image(turretImg[i],theTurret.x,theTurret.y,turretImg[i].width * 0.10, turretImg[i].height * 0.10);
-    //square(theTurret.x,theTurret.y,theTurret.size);
   }
 }
 
