@@ -50,7 +50,6 @@ function preload(){
   backgroundImg = loadImage("background Image.png");
   ufoImg = loadImage("ufo.png");
   playButton = loadImage("Play Button.png");
-  bulletImg = loadImage("Bullet.png")
 }
 
 function setup() {
@@ -120,6 +119,12 @@ function startGameScreen(){
 
 function endScreen(){
   background(backgroundImg)
+  push();
+  textSize(50);
+  textStyle(BOLD);
+  textAlign(CENTER)
+  text("Game Over!",screenWidth/2,screenHeight/2);
+  pop();
 }
 
 //function to spawn bullets as time passes
