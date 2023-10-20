@@ -43,6 +43,7 @@ let ufoAngle4;
 let lastSwitchTime = 0;
 
 let bullets = []
+let backgroundSound;
 
 
 function preload(){
@@ -50,6 +51,7 @@ function preload(){
   backgroundImg = loadImage("background Image.png");
   ufoImg = loadImage("ufo.png");
   playButton = loadImage("Play Button.png");
+  //bulletSound = loadSound("shootSound.wav");
 }
 
 function setup() {
@@ -76,7 +78,7 @@ function setup() {
 function draw() {
 
   if (score <= 0){
-    state = "EndScreen"
+    state = "EndScreen";
   }
 
   if (state === "EndScreen"){
