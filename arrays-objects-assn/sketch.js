@@ -33,20 +33,13 @@ let ufoSize = 0.3;
 let ufoPos;
 let ufoDx = 0;
 let ufoDy = 0;
-let ufoX;
-let ufoY;
 let ufoAngle;
-let ufoAngle1;
-let ufoAngle2;
-let ufoAngle3;
-let ufoAngle4;
 let lastSwitchTime = 0;
 
 let bullets1 = []
 let bullets2 = []
 let bullets3 = []
 let bullets4 = []
-let backgroundSound;
 let isHit;
 
 
@@ -111,22 +104,18 @@ function draw() {
   for (let i = bullets1.length - 1; i >= 0; i--) {
     bullets1[i].display();
     bullets1[i].update();
-    //bullets1[i].hits(ufoPos);
   }
   for (let i = bullets2.length - 1; i >= 0; i--) {
     bullets2[i].display();
     bullets2[i].update();
-    //bullets2[i].hits(ufoPos);
   }
   for (let i = bullets3.length - 1; i >= 0; i--) {
     bullets3[i].display();
     bullets3[i].update();
-    //bullets3[i].hits(ufoPos);
   }
   for (let i = bullets4.length - 1; i >= 0; i--) {
     bullets4[i].display();
     bullets4[i].update();
-    //bullets4[i].hits(ufoPos);
   }
   checkCollision();
  } 
@@ -201,7 +190,6 @@ class Bullet{
   this.hits = function(ufo){
     let d = dist(this.pos.x,this.pos.y,ufo.x,ufo.y);
     if (d < ufoImg.width*ufoSize || d < ufoImg.height*ufoSize ){
-      // score -= 1;
       isHit = true;
     }
   }
@@ -279,7 +267,6 @@ function displayTurret(){
     push();
     ufoAngle = atan2(theTurret.x - ufoPos.x, theTurret.y - ufoPos.y)
     translate(theTurret.x,theTurret.y)
-    //angleMode(DEGREES)
     rotate(-ufoAngle)
     imageMode(CENTER)
     image(turretImg[i],0,0,turretImg[i].width * 0.10, turretImg[i].height * 0.10);
