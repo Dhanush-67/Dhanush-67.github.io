@@ -161,7 +161,7 @@ function displayScore(){
   push();
   textSize(50);
   textStyle(BOLD);
-  text("Score: "+score,50,50);
+  text("HP: "+score,50,50);
   pop();
 }
 
