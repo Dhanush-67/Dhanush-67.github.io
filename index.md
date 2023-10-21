@@ -7,8 +7,8 @@
 - [Perlin Noise Ball](noise-ball)
 - [Sounds and images](sound)
 ## Projects
-- [Interactive Scene](Spaceshooter)
-- [Arrays/Objects Assignment](arrays-objects-assn)
+- [Space Shooter](Spaceshooter)
+- [Bullet Blitz](arrays-objects-assn)
 
 
 ## Example Markdown Link
