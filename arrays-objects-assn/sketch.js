@@ -26,6 +26,7 @@ let playButtonSize = 0.5;
 let screenWidth = 1280;
 let screenHeight = 720;
 let score = 10;
+let backgroundSound;
 
 //ufo variables
 let ufoImg;
@@ -35,12 +36,15 @@ let ufoDx = 0;
 let ufoDy = 0;
 let ufoAngle;
 let lastSwitchTime = 0;
+let ufoHitSound;
 
+//bullet variables
 let bullets1 = []
 let bullets2 = []
 let bullets3 = []
 let bullets4 = []
 let isHit;
+let bulletSound;
 
 
 function preload(){
@@ -48,7 +52,13 @@ function preload(){
   backgroundImg = loadImage("background Image.png");
   ufoImg = loadImage("ufo.png");
   playButton = loadImage("Play Button.png");
-  bulletSound = loadSound("shootSound.wav");
+  backgroundSound = loadSound("backgroundsound.mp3");
+  bulletSound = loadSound("shoot Sound.wav")
+  ufoHitSound = loadSound("ufohit.mp3")
+
+  backgroundSound.setVolume(0.5);
+  bulletSound.setVolume(1.0);
+  ufoHit.setVolume(2.0)
 }
 
 function setup() {
@@ -131,6 +141,9 @@ function startGameScreen(){
   image(playButton,screenWidth/2,screenHeight/2,playButton.width*playButtonSize,playButton.height*playButtonSize);
   if (mouseIsPressed === true && state === "start game"){
     state = "game";
+    if (!backgroundSound.isPlaying()){
+      backgroundSound.loop();
+    }
   }
   pop();
 }
@@ -152,6 +165,7 @@ function checkState() {
   bullets2.push(new Bullet(turret2.x,turret2.y, atan2(ufoPos.y - turret2.y, ufoPos.x - turret2.x)));
   bullets3.push(new Bullet(turret3.x,turret3.y, atan2(ufoPos.y - turret3.y, ufoPos.x - turret3.x)));
   bullets4.push(new Bullet(turret4.x,turret4.y, atan2(ufoPos.y - turret4.y, ufoPos.x - turret4.x)));
+  bulletSound.play();
   lastSwitchTime = millis();
   }
 }
@@ -263,7 +277,7 @@ function displayTurret(){
   let turretImg = [turretImgUp,turretImgUp,turretImgUp,turretImgUp];
   for(let i = 0; i <turrets.length; i++ ){
     let theTurret = turrets[i];
-    line(theTurret.x,theTurret.y,ufoPos.x ,ufoPos.y)
+    //line(theTurret.x,theTurret.y,ufoPos.x ,ufoPos.y)
     push();
     ufoAngle = atan2(theTurret.x - ufoPos.x, theTurret.y - ufoPos.y)
     translate(theTurret.x,theTurret.y)
@@ -278,10 +292,11 @@ function checkCollision() {
   for (let i = 1; i <= 4; i++) {
     let bullets = eval('bullets' + i);
     for(let u = 0; u < bullets.length; u++) {
-      let d = dist(bullets[u].pos.x, bullets[u].pos.y, ufoPos.x,ufoPos.y);
-      if (d < ufoImg.width*ufoSize || d < ufoImg.height*ufoSize ) {
+      let d = dist(bullets[u].pos.x, bullets[u].pos.y, ufoPos.x, ufoPos.y + 5);
+      if (d < 50) {
         bullets.splice(u, 1);
         isHit = true;
+        ufoHitSound.play()
       }
     }
   }
