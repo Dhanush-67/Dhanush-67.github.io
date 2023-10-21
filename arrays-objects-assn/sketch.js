@@ -42,8 +42,12 @@ let ufoAngle3;
 let ufoAngle4;
 let lastSwitchTime = 0;
 
-let bullets = []
+let bullets1 = []
+let bullets2 = []
+let bullets3 = []
+let bullets4 = []
 let backgroundSound;
+let isHit;
 
 
 function preload(){
@@ -51,7 +55,7 @@ function preload(){
   backgroundImg = loadImage("background Image.png");
   ufoImg = loadImage("ufo.png");
   playButton = loadImage("Play Button.png");
-  //bulletSound = loadSound("shootSound.wav");
+  bulletSound = loadSound("shootSound.wav");
 }
 
 function setup() {
@@ -77,6 +81,11 @@ function setup() {
 
 function draw() {
 
+  if(isHit){
+    score--;
+    isHit = !isHit;
+  }
+
   if (score <= 0){
     state = "EndScreen";
   }
@@ -99,12 +108,30 @@ function draw() {
     checkState()
 
     //loop to display bullets
-  for (let i = bullets.length - 1; i >= 0; i--) {
-    bullets[i].display();
-    bullets[i].update();
-    bullets[i].hits(ufoPos);
+  for (let i = bullets1.length - 1; i >= 0; i--) {
+    bullets1[i].display();
+    bullets1[i].update();
+    //bullets1[i].hits(ufoPos);
   }
+  for (let i = bullets2.length - 1; i >= 0; i--) {
+    bullets2[i].display();
+    bullets2[i].update();
+    //bullets2[i].hits(ufoPos);
+  }
+  for (let i = bullets3.length - 1; i >= 0; i--) {
+    bullets3[i].display();
+    bullets3[i].update();
+    //bullets3[i].hits(ufoPos);
+  }
+  for (let i = bullets4.length - 1; i >= 0; i--) {
+    bullets4[i].display();
+    bullets4[i].update();
+    //bullets4[i].hits(ufoPos);
+  }
+  checkCollision();
  } 
+
+ console.log(score);
 }
 
 
@@ -131,11 +158,11 @@ function endScreen(){
 
 //function to spawn bullets as time passes
 function checkState() {
-  if (millis() > lastSwitchTime + 600) {
-  bullets.push(new Bullet(turret1.x,turret1.y,ufoAngle1));
-  bullets.push(new Bullet(turret2.x,turret2.y,ufoAngle));
-  bullets.push(new Bullet(turret3.x,turret3.y,ufoAngle));
-  bullets.push(new Bullet(turret4.x,turret4.y,ufoAngle));
+  if (millis() > lastSwitchTime + 1500) {
+  bullets1.push(new Bullet(turret1.x,turret1.y, atan2(ufoPos.y - turret1.y, ufoPos.x - turret1.x)));
+  bullets2.push(new Bullet(turret2.x,turret2.y, atan2(ufoPos.y - turret2.y, ufoPos.x - turret2.x)));
+  bullets3.push(new Bullet(turret3.x,turret3.y, atan2(ufoPos.y - turret3.y, ufoPos.x - turret3.x)));
+  bullets4.push(new Bullet(turret4.x,turret4.y, atan2(ufoPos.y - turret4.y, ufoPos.x - turret4.x)));
   lastSwitchTime = millis();
   }
 }
@@ -145,17 +172,12 @@ function displayScore(){
   push();
   textSize(50);
   textStyle(BOLD);
-  text("WASD",50,50);
+  text("Score: "+score,50,50);
   pop();
 }
 
 
-function mousePressed() {
-  bullets.push(new Bullet(turret1.x,turret1.y,ufoAngle1));
-  bullets.push(new Bullet(turret2.x,turret2.y,ufoAngle2));
-  bullets.push(new Bullet(turret3.x,turret3.y,ufoAngle3));
-  bullets.push(new Bullet(turret4.x,turret4.y,ufoAngle3));
-}
+
 
 class Bullet{
   constructor (sposx,sposy,angle){
@@ -165,28 +187,22 @@ class Bullet{
   this.vel.mult(5);
 
   this.update = function(){
-    if (sposx === turret3.x || sposx === turret4.x){
-      this.pos.sub(this.vel);
-    }
-    else{
-      this.pos.add(this.vel);
-    }
-    
+    this.pos.add(this.vel);
   };
     
   this.display = function(){
     push();
     stroke("blue");
     strokeWeight(4);
-    translate(this.pos.x,this.pos.y)
-    circle(0,0,10);
+    circle(this.pos.x,this.pos.y,10);
     pop();
   };
 
   this.hits = function(ufo){
     let d = dist(this.pos.x,this.pos.y,ufo.x,ufo.y);
     if (d < ufoImg.width*ufoSize || d < ufoImg.height*ufoSize ){
-      score -= 1;
+      // score -= 1;
+      isHit = true;
     }
   }
  }
@@ -261,29 +277,26 @@ function displayTurret(){
     let theTurret = turrets[i];
     line(theTurret.x,theTurret.y,ufoPos.x ,ufoPos.y)
     push();
-    if (i === 0){
-      angleMode(DEGREES)
-      ufoAngle1 = atan2(theTurret.x - ufoPos.x, theTurret.y - ufoPos.y)
-    }
-    if (i === 0){
-      angleMode(DEGREES)
-      ufoAngle2 = atan2(theTurret.x - ufoPos.x, theTurret.y - ufoPos.y)
-    }
-    if (i === 0){
-      angleMode(DEGREES)
-      ufoAngle3 = atan2(theTurret.x - ufoPos.x, theTurret.y - ufoPos.y)
-    }
-    if (i === 0){
-      angleMode(DEGREES)
-      ufoAngle4 = atan2(theTurret.x - ufoPos.x, theTurret.y - ufoPos.y)
-    }
     ufoAngle = atan2(theTurret.x - ufoPos.x, theTurret.y - ufoPos.y)
     translate(theTurret.x,theTurret.y)
-    angleMode(DEGREES)
+    //angleMode(DEGREES)
     rotate(-ufoAngle)
     imageMode(CENTER)
     image(turretImg[i],0,0,turretImg[i].width * 0.10, turretImg[i].height * 0.10);
     pop();
+  }
+}
+
+function checkCollision() {
+  for (let i = 1; i <= 4; i++) {
+    let bullets = eval('bullets' + i);
+    for(let u = 0; u < bullets.length; u++) {
+      let d = dist(bullets[u].pos.x, bullets[u].pos.y, ufoPos.x,ufoPos.y);
+      if (d < ufoImg.width*ufoSize || d < ufoImg.height*ufoSize ) {
+        bullets.splice(u, 1);
+        isHit = true;
+      }
+    }
   }
 }
 
