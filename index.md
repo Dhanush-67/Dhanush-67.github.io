@@ -6,9 +6,7 @@
 - [Ball Array](ball-array)
 - [Perlin Noise Ball](noise-ball)
 - [Sounds and images](sound)
+- [Terrain Generation](terrain)
 ## Projects
 - [Space Shooter](Spaceshooter)
 - [Bullet Blitz](arrays-objects-assn)
-
-
-## Example Markdown Link
