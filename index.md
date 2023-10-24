@@ -7,6 +7,7 @@
 - [Perlin Noise Ball](noise-ball)
 - [Sounds and images](sound)
 - [Terrain Generation](terrain)
+- [Draw grid](grid)
 ## Projects
 - [Space Shooter](Spaceshooter)
 - [Bullet Blitz](arrays-objects-assn)
