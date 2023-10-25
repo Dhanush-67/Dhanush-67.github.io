@@ -8,6 +8,7 @@
 - [Sounds and images](sound)
 - [Terrain Generation](terrain)
 - [Draw grid](grid)
+- [Grid Neighbours](neighbours)
 ## Projects
 - [Space Shooter](Spaceshooter)
 - [Bullet Blitz](arrays-objects-assn)
