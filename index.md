@@ -12,3 +12,4 @@
 ## Projects
 - [Space Shooter](Spaceshooter)
 - [Bullet Blitz](arrays-objects-assn)
+- [Grid Project](grid-assignment)
