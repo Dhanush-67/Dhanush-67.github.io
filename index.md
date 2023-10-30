@@ -9,6 +9,9 @@
 - [Terrain Generation](terrain)
 - [Draw grid](grid)
 - [Grid Neighbours](neighbours)
+- [Game of life](game-of-life)
+- [Character in grid](character-in-grid)
+
 ## Projects
 - [Space Shooter](Spaceshooter)
 - [Bullet Blitz](arrays-objects-assn)
