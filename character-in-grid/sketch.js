@@ -1,24 +1,12 @@
-// 2D grid practice
-// Your Name
-// Date
-//
-// Extra for Experts:
-// - describe what you did to take this project "above and beyond"
 
 let grid;
-const GRID_SIZE = 40;
+const GRID_SIZE = 30;
 let cellSize;
 let playerX = 0;
 let playerY = 0;
 
-
-
 function setup() {
-  createCanvas(windowWidth, windowHeight);
-  grid = generateRandomGrid(GRID_SIZE, GRID_SIZE);
-
-  //put player in grid
-  grid[playerY][playerX] = 9;
+  createCanvas(windowWidth*0.8, windowHeight*0.8);
 
   if (height > width) {
     cellSize = width/GRID_SIZE;
@@ -26,6 +14,9 @@ function setup() {
   else {
     cellSize = height/GRID_SIZE;
   }
+  grid = generateRandomGrid(GRID_SIZE, GRID_SIZE);
+  //put player in grid
+  grid[playerY][playerX] = 9;
 }
 
 function draw() {
@@ -40,38 +31,39 @@ function keyTyped() {
   else if (key === "e") {
     grid = generateEmptyGrid(GRID_SIZE, GRID_SIZE);
   }
-  else if(key === "s"){//move down
-    movePlayer(0,1);
+  else if (key === "s") { //move down
+    movePlayer(0, 1);
   }
-  else if(key === "w"){//move down
-    movePlayer(0,-1);
+  else if (key === "w") { //move up
+    movePlayer(0, -1);
   }
-  else if(key === "a"){//move down
-    movePlayer(-1,0);
+  else if (key === "a") { //move left
+    movePlayer(-1, 0);
   }
-  else if(key === "d"){//move down
-    movePlayer(1,0);
+  else if (key === "d") { //move right
+    movePlayer(1, 0);
   }
 }
 
-function movePlayer(x,Y){
-  // edge case check
-  if(playerX + x >= 0 && playerX + x < GRID_SIZE){
-    playerY + Y >=0 && playerY + Y < GRID_SIZE
+function movePlayer(x, y) {
+  //edge case check
+  if (playerX + x >= 0 && playerX + x < GRID_SIZE &&
+      playerY + y >= 0 && playerY + y < GRID_SIZE) {
+    
+    //check if running into a wall
+    if (grid[playerY + y][playerX + x] === 0) {
+      let tempX = playerX;
+      let tempY = playerY;
 
-    if (grid[playerY+Y][playerX + x] === 0){
-      let tempX = playerX
-      let tempY = playerY
+      playerX += x;
+      playerY += y;
 
-      playerX  += x;
-      playerY += Y;
-
+      //update grid
       grid[playerY][playerX] = 9;
-      grid[tempY][tempX] = 0
+      grid[tempY][tempX] = 0;
     }
   }
 }
-
 
 function mousePressed() {
   let y = Math.floor(mouseY/cellSize);
