@@ -93,12 +93,13 @@ function generateRandomGrid(cols, rows) {
   for (let y = 0; y < cols; y++) {
     gridArray.push([]);
     for (let x = 0; x < rows; x++) {
-      if (random(100) < 50) {
-        gridArray[y].push(0);
-      }
-      else {
-        gridArray[y].push(1);
-      }
+      gridArray[y].push(0);
+      // if (random(100) < 50) {
+      //   gridArray[y].push(0);
+      // }
+      // else {
+      //   gridArray[y].push(1);
+      // }
     }
   }
   console.log(gridArray);
