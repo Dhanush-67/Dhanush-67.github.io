@@ -51,6 +51,7 @@ function keyTyped() {
   }
 }
 
+
 function movePlayer(x, y) {
   //edge case check
   if (playerX + x >= 0 && playerX + x < GRID_SIZE &&
@@ -83,7 +84,11 @@ function displayGrid(){
       else if (grid[y][x] === 9) {
         fill("green");
       }
-      rect(x * cellSize, y * cellSize, cellSize, cellSize);
+      line(x*cellSize,y*cellSize,x+cellSize,y*cellSize)
+      line(x+cellSize,y*cellSize,x*cellSize,y*cellSize)
+      line(x*cellSize,y*cellSize,x*cellSize,y+cellSize)
+      line(x*cellSize,y+cellSize,x*cellSize,y*cellSize)
+      //rect(x * cellSize, y * cellSize, cellSize, cellSize);
     }
   }
 }
