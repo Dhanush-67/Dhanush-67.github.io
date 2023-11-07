@@ -76,18 +76,31 @@ function displayGrid(){
   for (let y = 0; y < GRID_SIZE; y++) {
     for (let x = 0; x < GRID_SIZE; x++) {
       if (grid[y][x] === 0) {
-        fill("blue");
+        stroke(0);
+        noFill();
+        //fill("red");
       }
-      if (grid[y][x] === 1) {
-        fill("black");
+
+      // if (grid[y][x] === 1) {
+      //   fill("black");
+      // }
+      // else if (grid[y][x] === 9) {
+      //   fill("green");
+      // }
+
+      let walls = [true,true,false,false];
+      if(walls[0]){
+        line(x*cellSize,y*cellSize,x*cellSize+cellSize,y*cellSize);
       }
-      else if (grid[y][x] === 9) {
-        fill("green");
+      if(walls[1]){
+        line(x*cellSize+cellSize,y*cellSize,x*cellSize+cellSize,y*cellSize+cellSize);
       }
-      line(x*cellSize,y*cellSize,x+cellSize,y*cellSize)
-      line(x+cellSize,y*cellSize,x*cellSize,y*cellSize)
-      line(x*cellSize,y*cellSize,x*cellSize,y+cellSize)
-      line(x*cellSize,y+cellSize,x*cellSize,y*cellSize)
+      if(walls[2]){
+        line(x*cellSize+cellSize,y*cellSize,x*cellSize,y*cellSize);
+      }
+      if(walls[3]){
+        line(x*cellSize,y*cellSize+cellSize,x*cellSize,y*cellSize);
+      }
       //rect(x * cellSize, y * cellSize, cellSize, cellSize);
     }
   }
