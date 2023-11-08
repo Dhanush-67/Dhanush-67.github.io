@@ -73,37 +73,46 @@ function movePlayer(x, y) {
 }
 
 function displayGrid(){
-  for (let y = 0; y < GRID_SIZE; y++) {
-    for (let x = 0; x < GRID_SIZE; x++) {
-      if (grid[y][x] === 0) {
-        stroke(0);
-        noFill();
-        //fill("red");
-      }
-
-      // if (grid[y][x] === 1) {
-      //   fill("black");
-      // }
-      // else if (grid[y][x] === 9) {
-      //   fill("green");
-      // }
-
-      let walls = [true,true,false,false];
-      if(walls[0]){
-        line(x*cellSize,y*cellSize,x*cellSize+cellSize,y*cellSize);
-      }
-      if(walls[1]){
-        line(x*cellSize+cellSize,y*cellSize,x*cellSize+cellSize,y*cellSize+cellSize);
-      }
-      if(walls[2]){
-        line(x*cellSize+cellSize,y*cellSize,x*cellSize,y*cellSize);
-      }
-      if(walls[3]){
-        line(x*cellSize,y*cellSize+cellSize,x*cellSize,y*cellSize);
-      }
-      //rect(x * cellSize, y * cellSize, cellSize, cellSize);
-    }
+  for (let x = 0; x < grid.length; x++ ){
+    let cells = grid[x];
+    console.log(x);
   }
+  // for (let y = 0; y < GRID_SIZE; y++) {
+  //   for (let x = 0; x < GRID_SIZE; x++) {
+  //     cellX = grid[y][x]
+  //     stroke(0);
+  //     noFill();
+
+  //     let walls = [true,true,true,true];
+  //     if(walls[0]){
+  //       line(x*cellSize,y*cellSize,x+cellSize,y*cellSize);
+  //     }
+  //     if(walls[1]){
+  //       line(x+cellSize,y*cellSize,x+cellSize,y+cellSize);
+  //     }
+  //     if(walls[2]){
+  //       line(x*cellSize,y*cellSize,x*cellSize,y+cellSize);
+  //     }
+  //     if(walls[3]){
+  //       line(x*cellSize,y+cellSize,x*cellSize,y*cellSize);
+  //     }
+
+  //     let walls = [true,true,false,false];
+  //     if(walls[0]){
+  //       line(x*cellSize,y*cellSize,x*cellSize+cellSize,y*cellSize);
+  //     }
+  //     if(walls[1]){
+  //       line(x*cellSize+cellSize,y*cellSize,x*cellSize+cellSize,y*cellSize+cellSize);
+  //     }
+  //     if(walls[2]){
+  //       line(x*cellSize+cellSize,y*cellSize,x*cellSize,y*cellSize);
+  //     }
+  //     if(walls[3]){
+  //       line(x*cellSize,y*cellSize+cellSize,x*cellSize,y*cellSize);
+  //     }
+  //     rect(x * cellSize, y * cellSize, cellSize, cellSize);
+  //   }
+  // }
 }
 
 function generateRandomGrid(cols, rows) {
@@ -111,15 +120,9 @@ function generateRandomGrid(cols, rows) {
   for (let y = 0; y < cols; y++) {
     gridArray.push([]);
     for (let x = 0; x < rows; x++) {
-      gridArray[y].push(0);
-      // if (random(100) < 50) {
-      //   gridArray[y].push(0);
-      // }
-      // else {
-      //   gridArray[y].push(1);
-      // }
+      gridArray[y].push(x);
     }
   }
-  console.log(gridArray);
   return gridArray;
 }
+
