@@ -179,4 +179,3 @@ function Cell(x,y){
   };
 
 }
-
