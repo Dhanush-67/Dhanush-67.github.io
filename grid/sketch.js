@@ -62,6 +62,7 @@ function displayGrid() {
         fill("black");
       }
       rect(x * cellSize, y * cellSize, cellSize, cellSize);
+      console.log(grid)
     }
   }
 }

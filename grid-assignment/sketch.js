@@ -5,134 +5,15 @@
 // Extra for Experts:
 // - describe what you did to take this project "above and beyond"
 
-// //global variables
-// let cellSize;
-// let grid;
-// const GRID_SIZE = 10;
-// let playerX = 0;
-// let playerY = 0;
-
-// function setup() {
-
-//   createCanvas(windowWidth*0.95, windowHeight*0.95);
-
-//   if (height > width){
-//     //cellSize = 10;
-//     cellSize = width/GRID_SIZE;
-//   }
-//   else{
-//     //cellSize = 10;
-//     cellSize = height/GRID_SIZE;
-//   }
-//   grid = generateRandomGrid(GRID_SIZE, GRID_SIZE);
-//   grid[playerY][playerX] = 9;
-// }
-
-// function draw() {
-//   background(255);
-//   displayGrid();
-// }
-
-// function keyTyped() {
-//   if (key === "r") {
-//     grid = generateRandomGrid(GRID_SIZE, GRID_SIZE);
-//   }
-//   else if (key === "s") { //move down
-//     movePlayer(0, 1);
-//   }
-//   else if (key === "w") { //move up
-//     movePlayer(0, -1);
-//   }
-//   else if (key === "a") { //move left
-//     movePlayer(-1, 0);
-//   }
-//   else if (key === "d") { //move right
-//     movePlayer(1, 0);
-//   }
-// }
-
-
-// function movePlayer(x, y) {
-//   //edge case check
-//   if (playerX + x >= 0 && playerX + x < GRID_SIZE &&
-//       playerY + y >= 0 && playerY + y < GRID_SIZE) {
-    
-//     //check if running into a wall
-//     if (grid[playerY + y][playerX + x] === 0) {
-//       let tempX = playerX;
-//       let tempY = playerY;
-
-//       playerX += x;
-//       playerY += y;
-
-//       //update grid
-//       grid[playerY][playerX] = 9;
-//       grid[tempY][tempX] = 0;
-//     }
-//   }
-// }
-
-// function displayGrid(){
-//   for (let x = 0; x < grid.length; x++ ){
-//     let cells = grid[x];
-//     console.log(x);
-//   }
-//   // for (let y = 0; y < GRID_SIZE; y++) {
-//   //   for (let x = 0; x < GRID_SIZE; x++) {
-//   //     cellX = grid[y][x]
-//   //     stroke(0);
-//   //     noFill();
-
-//   //     let walls = [true,true,true,true];
-//   //     if(walls[0]){
-//   //       line(x*cellSize,y*cellSize,x+cellSize,y*cellSize);
-//   //     }
-//   //     if(walls[1]){
-//   //       line(x+cellSize,y*cellSize,x+cellSize,y+cellSize);
-//   //     }
-//   //     if(walls[2]){
-//   //       line(x*cellSize,y*cellSize,x*cellSize,y+cellSize);
-//   //     }
-//   //     if(walls[3]){
-//   //       line(x*cellSize,y+cellSize,x*cellSize,y*cellSize);
-//   //     }
-
-//   //     let walls = [true,true,false,false];
-//   //     if(walls[0]){
-//   //       line(x*cellSize,y*cellSize,x*cellSize+cellSize,y*cellSize);
-//   //     }
-//   //     if(walls[1]){
-//   //       line(x*cellSize+cellSize,y*cellSize,x*cellSize+cellSize,y*cellSize+cellSize);
-//   //     }
-//   //     if(walls[2]){
-//   //       line(x*cellSize+cellSize,y*cellSize,x*cellSize,y*cellSize);
-//   //     }
-//   //     if(walls[3]){
-//   //       line(x*cellSize,y*cellSize+cellSize,x*cellSize,y*cellSize);
-//   //     }
-//   //     rect(x * cellSize, y * cellSize, cellSize, cellSize);
-//   //   }
-//   // }
-// }
-
-// function generateRandomGrid(cols, rows) {
-//   let gridArray = [];
-//   for (let y = 0; y < cols; y++) {
-//     gridArray.push([]);
-//     for (let x = 0; x < rows; x++) {
-//       gridArray[y].push(x);
-//     }
-//   }
-//   return gridArray;
-// }
 
 //global variables
 let col;
 let row;
 let cellSize = 40;
 let grid = [];
+let currentCell;
 
-//setup function
+
 function setup() {
   //adjusts the size of the grid based on window height and width
   createCanvas(windowWidth, windowHeight);
@@ -147,35 +28,91 @@ function setup() {
   
   // makes a list of cells and pushes it to the array "grid"
   for(let y = 0; y< row; y++){
+    grid.push([])
     for(let x = 0; x<col; x++){
       let cell = new Cell(x,y);
-      grid.push(cell);
+      grid[y].push(cell);
     }
   }
+  currentCell = grid[5][5];
+  frameRate(5)
 }
 
 function draw(){
   background(255);
   displayGrid();
-}
 
-function displayGrid(){
-  for(let i = 0; i < grid.length; i++){
-    grid[i].show();
+  currentCell.visited = true;
+  let next = currentCell.checkNeighbours();
+  if (next){
+    next.visited = true;
+    currentCell = next
   }
 }
 
+
+function displayGrid(){
+  for(let i = 0; i < grid.length; i++){
+    for(let j = 0; j < grid.length; j++){
+    grid[i][j].show();
+    }
+  }
+}
+
+//cell object
 function Cell(x,y){
   this.x = x;
   this.y = y;
+  this.walls = [true,true,true,true];
+  this.visited = false;
 
+  //displays each cell
   this.show = function(){
     let x = this.x*cellSize;
     let y = this.y*cellSize;
     stroke(0);
-    noFill();
-    
-    rect(x,y,cellSize,cellSize);
+
+    //makes each cell with four lines instead of using the rect function
+    this.walls[0] && line(x, y, x+cellSize, y)
+    this.walls[1] && line(x+cellSize,y,x+cellSize,y+cellSize)
+    this.walls[2] && line(x+cellSize,y+cellSize,x,y+cellSize)
+    this.walls[3] && line(x,y+cellSize,x,y)
+
+    if(this.visited){
+        fill(255,0,255,100)
+        rect(x,y,cellSize,cellSize)
+    }
+
   };
+
+  //checks for unvisited neirghbouring cells
+  this.checkNeighbours = function(){
+    let neighbours = [];
+
+
+    let top = grid[x][y-1]
+    let right = grid[x+1][y]
+    let bottom = grid[x][y+1]
+    let left = grid[x-1][y]
+
+    if(grid[x][y]<0 || grid[x][y] > row){
+        return "invalid"
+    }
+    
+    !top.visited && "invalid" && neighbours.push(top);
+    !right.visited && "invalid" && neighbours.push(right);
+    !bottom.visited && "invalid" && neighbours.push(bottom);
+    !left.visited && "invalid" && neighbours.push(left);
+
+    if(neighbours.length>0){
+        let r = floor(random(0,neighbours.length));
+        return neighbours[r]
+    }
+    else{
+        return undefined
+    }
+    }
+
+    
 
 }
