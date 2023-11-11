@@ -25,6 +25,8 @@ function setup() {
     col = floor(height/cellSize);
     row = floor(height/cellSize);
   }
+
+  frameRate(10)
   
   // makes a list of cells and pushes it to the array "grid"
   for(let y = 0; y< row; y++){
@@ -34,41 +36,45 @@ function setup() {
       grid[y].push(cell);
     }
   }
-  console.log(grid)
+
   currentCell = grid[0][0];
-  frameRate(5)
+
+  console.log(grid)
 }
 
 function draw(){
   background(255);
   displayGrid();
 
-  currentCell.visited = true;
-  let next = currentCell.checkNeighbours();
-  if (next){
-    next.visited = true;
-    currentCell = next
-  }
 }
 
 
 function displayGrid(){
-  for(let i = 0; i < grid.length; i++){
-    for(let j = 0; j < grid.length; j++){
-    grid[i][j].show();
+  for(let row of grid){
+    for(let col of row){
+      col.show();
     }
+  }
+  currentCell.visited = true;
+  let next = currentCell.checkNeighbors();
+  
+  if (next) {
+    next.visited = true;
+    currentCell = next;
   }
 }
 
 //cell object
-function Cell(x,y){
-  this.x = x;
-  this.y = y;
-  this.walls = [true,true,true,true];
-  this.visited = false;
+class Cell {
+  constructor(x, y) {
+    this.x = x;
+    this.y = y;
+    this.walls = [true,true,true,true];
+    this.visited = false;    
+  }
 
   //displays each cell
-  this.show = function(){
+  show(){
     let x = this.x*cellSize;
     let y = this.y*cellSize;
     stroke(0);
@@ -78,42 +84,71 @@ function Cell(x,y){
     this.walls[1] && line(x+cellSize,y,x+cellSize,y+cellSize)
     this.walls[2] && line(x+cellSize,y+cellSize,x,y+cellSize)
     this.walls[3] && line(x,y+cellSize,x,y)
-
-    if(this.visited){
-        fill(255,0,255,100)
-        rect(x,y,cellSize,cellSize)
+    
+    if (this.visited) {
+      fill(255, 0, 255, 100);
+      rect(x, y, cellSize, cellSize);
     }
 
   };
 
-  //checks for unvisited neirghbouring cells
-  this.checkNeighbours = function(){
-    let neighbours = [];
+  checkNeighbors() {
+    let neighbors = [];
 
+    let x = this.x;
+    let y = this.y;
 
-    let top = grid[x][y-1]
-    let right = grid[x+1][y]
-    let bottom = grid[x][y+1]
-    let left = grid[x-1][y]
+    let top;
+    let right;
+    let bottom;
+    let left;
 
-    if(grid[x][y]<  0 || grid[x][y] > row){
-        return "invalid"
+    if (y - 1 >= 0) {
+      top = grid[y - 1][x];
     }
-    
-    !top.visited && "invalid" && neighbours.push(top);
-    !right.visited && "invalid" && neighbours.push(right);
-    !bottom.visited && "invalid" && neighbours.push(bottom);
-    !left.visited && "invalid" && neighbours.push(left);
+    else {
+      top = undefined;
+    }
+    if (y + 1 < row) {
+      bottom = grid[y + 1][x];
+    }
+    else {
+      bottom = undefined;
+    }
+    left = grid[y][x - 1];
+    right = grid[y][x + 1];
 
-    if(neighbours.length>0){
-        let r = floor(random(0,neighbours.length));
-        return neighbours[r]
+    if (top) {
+      if (!top.visited){
+        neighbors.push(top);
+      }
     }
-    else{
-        return undefined
+    if (right) {
+      if (!right.visited){
+        neighbors.push(right);
+      }
     }
+    if (bottom) {
+      if (!bottom.visited){
+        neighbors.push(bottom);
+      }
+    }
+    if (left) {
+      if (!left.visited){
+        neighbors.push(left);
+      }
     }
 
-    
+
+    if (neighbors.length > 0) {
+      let r = floor(random(0, neighbors.length));
+      return neighbors[r];
+    }
+    else {
+      return undefined;
+    }
+
+
+  }
 
 }
