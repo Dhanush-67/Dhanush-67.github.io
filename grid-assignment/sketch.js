@@ -35,7 +35,6 @@ function setup() {
     }
   }
   console.log(grid)
-  console.log(grid[0][0.1])
   currentCell = grid[0][0];
   frameRate(5)
 }
