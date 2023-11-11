@@ -34,7 +34,9 @@ function setup() {
       grid[y].push(cell);
     }
   }
-  currentCell = grid[5][5];
+  console.log(grid)
+  console.log(grid[0][0.1])
+  currentCell = grid[0][0];
   frameRate(5)
 }
 
@@ -95,7 +97,7 @@ function Cell(x,y){
     let bottom = grid[x][y+1]
     let left = grid[x-1][y]
 
-    if(grid[x][y]<0 || grid[x][y] > row){
+    if(grid[x][y]<  0 || grid[x][y] > row){
         return "invalid"
     }
     
