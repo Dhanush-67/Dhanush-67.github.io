@@ -26,7 +26,6 @@ function setup() {
     row = floor(height/cellSize);
   }
 
-  frameRate(10)
   
   // makes a list of cells and pushes it to the array "grid"
   for(let y = 0; y< row; y++){
@@ -36,16 +35,15 @@ function setup() {
       grid[y].push(cell);
     }
   }
-
+  
+  //sets current cell to the origin of the grid
   currentCell = grid[0][0];
-
-  console.log(grid)
 }
+
 
 function draw(){
   background(255);
   displayGrid();
-
 }
 
 
@@ -55,14 +53,17 @@ function displayGrid(){
       col.show();
     }
   }
+
   currentCell.visited = true;
+
+  //sets the next unvisited cell as current cell
   let next = currentCell.checkNeighbors();
-  
   if (next) {
     next.visited = true;
     currentCell = next;
   }
 }
+
 
 //cell object
 class Cell {
@@ -79,37 +80,42 @@ class Cell {
     let y = this.y*cellSize;
     stroke(0);
 
-    //makes each cell with four lines instead of using the rect function
+    //makes each cell with four lines instead of using the rect function(concise form of an if loop)
     this.walls[0] && line(x, y, x+cellSize, y)
     this.walls[1] && line(x+cellSize,y,x+cellSize,y+cellSize)
     this.walls[2] && line(x+cellSize,y+cellSize,x,y+cellSize)
     this.walls[3] && line(x,y+cellSize,x,y)
     
+    //checks if the current cell has visited the cell
     if (this.visited) {
       fill(255, 0, 255, 100);
       rect(x, y, cellSize, cellSize);
     }
-
   };
+
 
   checkNeighbors() {
     let neighbors = [];
 
+    //sets the x and y to be the current cells x and y
     let x = this.x;
     let y = this.y;
+
 
     let top;
     let right;
     let bottom;
     let left;
 
-    if (y - 1 >= 0) {
+    
+    //checks if it is off the grid
+    if (grid[y - 1]) {
       top = grid[y - 1][x];
     }
     else {
       top = undefined;
     }
-    if (y + 1 < row) {
+    if (grid[y + 1]) {
       bottom = grid[y + 1][x];
     }
     else {
@@ -118,6 +124,8 @@ class Cell {
     left = grid[y][x - 1];
     right = grid[y][x + 1];
 
+
+    // if the cell is defined and is not visited then it will push it to the neighbours array we had made
     if (top) {
       if (!top.visited){
         neighbors.push(top);
@@ -139,7 +147,7 @@ class Cell {
       }
     }
 
-
+    //chooses a random neghbouring cell to become the next current cell
     if (neighbors.length > 0) {
       let r = floor(random(0, neighbors.length));
       return neighbors[r];
@@ -147,7 +155,6 @@ class Cell {
     else {
       return undefined;
     }
-
 
   }
 
