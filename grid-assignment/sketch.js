@@ -12,6 +12,8 @@ let row;
 let cellSize = 40;
 let grid = [];
 let currentCell;
+let stack = []
+
 
 
 function setup() {
@@ -41,10 +43,12 @@ function setup() {
 }
 
 
+
 function draw(){
   background(255);
   displayGrid();
 }
+
 
 
 function displayGrid(){
@@ -54,15 +58,30 @@ function displayGrid(){
     }
   }
 
+
   currentCell.visited = true;
 
+
   //sets the next unvisited cell as current cell
-  let next = currentCell.checkNeighbors();
-  if (next) {
-    next.visited = true;
-    currentCell = next;
+  let nextCell = currentCell.checkNeighbors();
+  if (nextCell) {
+    nextCell.visited = true;
+
+    //pushes the current cell's current position before it moves to a neighboring cell
+    // so that when it gets stuck it can come back to this position and move on
+    stack.push(currentCell);
+
+    removeWalls(currentCell,nextCell);
+
+    currentCell = nextCell;
+  }
+  // when there are no neighbouring cells for that position the current cell backtracks
+  // and gets to the position it came from and then continues from there to other neighboring cells
+  else if (stack.length > 0){
+    currentCell = stack.pop();
   }
 }
+
 
 
 //cell object
@@ -78,7 +97,7 @@ class Cell {
   show(){
     let x = this.x*cellSize;
     let y = this.y*cellSize;
-    stroke(0);
+    stroke(25,25,112);
 
     //makes each cell with four lines instead of using the rect function(concise form of an if loop)
     this.walls[0] && line(x, y, x+cellSize, y)
@@ -88,7 +107,8 @@ class Cell {
     
     //checks if the current cell has visited the cell
     if (this.visited) {
-      fill(255, 0, 255, 100);
+      noStroke();
+      fill(0,128,128);
       rect(x, y, cellSize, cellSize);
     }
   };
@@ -158,4 +178,34 @@ class Cell {
 
   }
 
+}
+
+
+
+// removes walls between the current cell and the neighbouring cell
+function removeWalls(c,n){
+
+  let x = c.x - n.x
+  //left wall of current cell
+  if( x === 1){
+    c.walls[3] = false;
+    n.walls[1] = false;
+  }
+  else if(x === -1){
+    //right wall of current cell
+    c.walls[1] = false;
+    n.walls[3] = false;
+  }
+
+  let y = c.y - n.y
+  if( y === 1){
+    //top wall of current cell
+    c.walls[0] = false;
+    n.walls[2] = false;
+  }
+  else if(y === -1){
+    // bottom wall of current cell
+    c.walls[2] = false;
+    n.walls[0] = false;
+  }
 }
