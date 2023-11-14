@@ -12,7 +12,18 @@ let row;
 let cellSize = 40;
 let grid = [];
 let currentCell;
-let stack = []
+let stack = [];
+let endScreen = false;
+let time = 0;
+let passedTime;
+
+//player
+let playerCell;
+let playerX = 0;
+let playerY = 0;
+
+//end
+let endCell;
 
 
 
@@ -40,15 +51,44 @@ function setup() {
   
   //sets current cell to the origin of the grid
   currentCell = grid[0][0];
+  playerCell = grid[playerY][playerX];
+  endCell = grid[grid.length-1][grid.length-1];
 }
 
 
 
 function draw(){
-  background(255);
-  displayGrid();
+  if(endScreen){
+    EndScreen()
+  }
+  else{
+    background(255);
+    displayGrid();
+    displayTime();
+  }
 }
 
+
+function EndScreen(){
+  push();
+  background(255)
+  textSize(30);
+  textStyle(BOLD);
+  textAlign(CENTER);
+  text("Game Over!",width/2-200,height/2);
+  text("You took "+Math.floor(time/1000)+"s",width/2-200, height/2+100)
+  pop();
+}
+
+function displayTime(){
+  time = millis() - passedTime
+  push();
+  fill(0)
+  textSize(20);
+  textStyle(BOLD);
+  text("Time: "+Math.floor(time/1000)+"s",width/2,height/2);
+  pop();
+}
 
 
 function displayGrid(){
@@ -65,6 +105,7 @@ function displayGrid(){
   //sets the next unvisited cell as current cell
   let nextCell = currentCell.checkNeighbors();
   if (nextCell) {
+    passedTime = millis()
     nextCell.visited = true;
 
     //pushes the current cell's current position before it moves to a neighboring cell
@@ -80,6 +121,14 @@ function displayGrid(){
   else if (stack.length > 0){
     currentCell = stack.pop();
   }
+  else{
+    playerCell.start = true;
+    endCell.start = true;
+    passedTime = passedTime;
+    if(playerCell.x === endCell.x && playerCell.y === endCell.y){
+      endScreen = true;
+    }
+  }
 }
 
 
@@ -91,6 +140,7 @@ class Cell {
     this.y = y;
     this.walls = [true,true,true,true];
     this.visited = false;    
+    this.start = false
   }
 
   //displays each cell
@@ -98,6 +148,7 @@ class Cell {
     let x = this.x*cellSize;
     let y = this.y*cellSize;
     stroke(25,25,112);
+
 
     //makes each cell with four lines instead of using the rect function(concise form of an if loop)
     this.walls[0] && line(x, y, x+cellSize, y)
@@ -111,7 +162,57 @@ class Cell {
       fill(0,128,128);
       rect(x, y, cellSize, cellSize);
     }
+
+    if (this.start) {
+      noStroke();
+      fill(34,139,34);
+      rect(x, y, cellSize, cellSize);
+    }
   };
+
+  movePlayer(a,b){
+    let x = this.x
+    let y = this.y
+
+    
+    //go down
+    if(a === 0 && b === 1 && !this.walls[2]){
+      let down;
+      if (grid[y + 1]) {
+        down = grid[y + 1][x];
+      }
+      else {
+        down = undefined;
+      }
+      return down
+    }
+    
+
+    //go up
+    if(a === 0 && b === -1 && !this.walls[0]){
+      let up;
+      if (grid[y - 1]) {
+        up = grid[y - 1][x];
+      }
+      else {
+        up = undefined;
+      }
+      return up;
+    }
+    
+
+    //go left
+    if(a === -1 && b === 0 && !this.walls[3]){
+      let left = grid[y][x - 1];
+      return left
+    }
+
+    //go right
+    if(a === 1 && b === 0 && !this.walls[1]){
+      let right = grid[y][x + 1];
+      return right
+    }
+  }
 
 
   checkNeighbors() {
@@ -207,5 +308,37 @@ function removeWalls(c,n){
     // bottom wall of current cell
     c.walls[2] = false;
     n.walls[0] = false;
+  }
+}
+
+
+function keyTyped() {
+  if (key === "s") { //move down
+    playerCell.visited = false;
+    let next = playerCell.movePlayer(0, 1);
+  if (next) {
+    playerCell = next;
+  }
+  }
+
+  else if (key === "w") { //move up
+    let next = playerCell.movePlayer(0, -1);
+  if (next) {
+    playerCell = next;
+  }
+  }
+
+  else if (key === "a") { //move left
+    let next = playerCell.movePlayer(-1, 0);
+  if (next) {
+    playerCell = next;
+  }
+  }
+
+  else if (key === "d") { //move right
+    let next = playerCell.movePlayer(1, 0);
+  if (next) {
+    playerCell = next;
+  }
   }
 }
