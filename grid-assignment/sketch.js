@@ -3,7 +3,9 @@
 // 10-27-2023
 //
 // Extra for Experts:
-// - describe what you did to take this project "above and beyond"
+// - I have made a random maze generator based on a depth-first search with backtracking. Also
+// instead of generating the grid like how we learnt in class I used a class constructor to create
+// "cell" objects which I then displayed individually to create the grid
 
 
 //global variables
@@ -21,11 +23,18 @@ let passedTime;
 let playerCell;
 let playerX = 0;
 let playerY = 0;
+let movementSound;
 
 //end
 let endCell;
+let endSound
 
+function preload(){
+  endSound = loadSound("end sound.wav");
+  movementSound = loadSound("movement sound.ogg")
 
+  movementSound.setVolume(0.5);
+}
 
 function setup() {
   //adjusts the size of the grid based on window height and width
@@ -71,6 +80,7 @@ function draw(){
 
 function EndScreen(){
   push();
+  stroke(0)
   background(255)
   textSize(30);
   textStyle(BOLD);
@@ -105,7 +115,9 @@ function displayGrid(){
   //sets the next unvisited cell as current cell
   let nextCell = currentCell.checkNeighbors();
   if (nextCell) {
+
     passedTime = millis()
+    
     nextCell.visited = true;
 
     //pushes the current cell's current position before it moves to a neighboring cell
@@ -116,16 +128,20 @@ function displayGrid(){
 
     currentCell = nextCell;
   }
+
   // when there are no neighbouring cells for that position the current cell backtracks
   // and gets to the position it came from and then continues from there to other neighboring cells
   else if (stack.length > 0){
     currentCell = stack.pop();
   }
+
+  // displays the player and the goal once the maze is generated with sound effects
   else{
     playerCell.start = true;
     endCell.start = true;
     passedTime = passedTime;
     if(playerCell.x === endCell.x && playerCell.y === endCell.y){
+      endSound.play();
       endScreen = true;
     }
   }
@@ -162,7 +178,8 @@ class Cell {
       fill(0,128,128);
       rect(x, y, cellSize, cellSize);
     }
-
+    
+    //displays the player once the maze is generated
     if (this.start) {
       noStroke();
       fill(34,139,34);
@@ -170,12 +187,15 @@ class Cell {
     }
   };
 
+
+  //makes the player move
   movePlayer(a,b){
     let x = this.x
     let y = this.y
 
     
     //go down
+    // I had to add this extra part for top and bottom as we cannot take the x of undefined. It will give an error
     if(a === 0 && b === 1 && !this.walls[2]){
       let down;
       if (grid[y + 1]) {
@@ -313,8 +333,9 @@ function removeWalls(c,n){
 
 
 function keyTyped() {
+  movementSound.play();
   if (key === "s") { //move down
-    playerCell.visited = false;
+    playerCell.start = false//avoids a trail being left behind by the player
     let next = playerCell.movePlayer(0, 1);
   if (next) {
     playerCell = next;
@@ -322,6 +343,7 @@ function keyTyped() {
   }
 
   else if (key === "w") { //move up
+    playerCell.start = false
     let next = playerCell.movePlayer(0, -1);
   if (next) {
     playerCell = next;
@@ -329,6 +351,7 @@ function keyTyped() {
   }
 
   else if (key === "a") { //move left
+    playerCell.start = false
     let next = playerCell.movePlayer(-1, 0);
   if (next) {
     playerCell = next;
@@ -336,6 +359,7 @@ function keyTyped() {
   }
 
   else if (key === "d") { //move right
+    playerCell.start = false
     let next = playerCell.movePlayer(1, 0);
   if (next) {
     playerCell = next;
