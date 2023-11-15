@@ -11,6 +11,7 @@
 - [Grid Neighbours](neighbours)
 - [Game of life](game-of-life)
 - [Character in grid](character-in-grid)
+- [Ball OOP demo](ball-oop)
 
 ## Projects
 - [Space Shooter](Spaceshooter)
