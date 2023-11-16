@@ -12,6 +12,7 @@
 - [Game of life](game-of-life)
 - [Character in grid](character-in-grid)
 - [Ball OOP demo](ball-oop)
+- [Connected Ball OOP Demo](nodes)
 
 ## Projects
 - [Space Shooter](Spaceshooter)
