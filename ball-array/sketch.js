@@ -32,6 +32,7 @@ function mousePressed() {
   someBall.x = mouseX;
   someBall.y = mouseY;
   ballArray.push(someBall);
+  
 }
 
 function spawnBall() {

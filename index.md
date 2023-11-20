@@ -13,6 +13,7 @@
 - [Character in grid](character-in-grid)
 - [Ball OOP demo](ball-oop)
 - [Connected Ball OOP Demo](nodes)
+- [Fireworks](fireworks)
 
 ## Projects
 - [Space Shooter](Spaceshooter)
