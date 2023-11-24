@@ -14,6 +14,7 @@
 - [Ball OOP demo](ball-oop)
 - [Connected Ball OOP Demo](nodes)
 - [Fireworks](fireworks)
+- [Inheritance OOP demo](inheritence)
 
 ## Projects
 - [Space Shooter](Spaceshooter)
