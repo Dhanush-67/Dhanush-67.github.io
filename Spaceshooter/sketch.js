@@ -29,7 +29,7 @@ function draw() {
 
   for (let i = 0; i < asteroids.length; i++) {
     if (satellite.hits(asteroids[i])) {
-      background("white");
+      background("gray");
       score = 0;
       console.log("Restart");
     }

@@ -8,7 +8,7 @@ function Satellite(){
     
   this.goingForward = function(b){
     this.isgoingForward = b;
-  }
+  };
     
   this.update = function(){
     if (this.isgoingForward){
@@ -16,7 +16,7 @@ function Satellite(){
     }
     this.pos.add(this.vel);
     this.vel.mult(0.98);
-  }
+  };
     
   this.forward = function(){
     let force  = p5.Vector.fromAngle(this.heading);
