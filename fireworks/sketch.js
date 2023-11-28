@@ -28,7 +28,7 @@ function draw() {
 }
 
 function mousePressed(){
-  for(let i = 0; i <100; i++){
+  for(let i = 0; i <1000; i++){
     let dx = random(random(-20,20));
     let dy = random(random(-20,20));
     let someParticle = new Particle(mouseX, mouseY, dx, dy);
