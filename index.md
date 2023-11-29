@@ -16,6 +16,7 @@
 - [Fireworks](fireworks)
 - [Inheritance OOP demo](inheritence)
 - [Collision Demo](collisiondemo)
+- [p5 Play](p5play)
 
 ## Projects
 - [Space Shooter](Spaceshooter)
