@@ -17,6 +17,7 @@
 - [Inheritance OOP demo](inheritence)
 - [Collision Demo](collisiondemo)
 - [p5 Play](p5play)
+- [OOP pair programming lab](pairprogramming)
 
 ## Projects
 - [Space Shooter](Spaceshooter)
