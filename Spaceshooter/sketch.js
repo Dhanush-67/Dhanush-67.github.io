@@ -67,9 +67,9 @@ function mousePressed() {
 function keyPressed() {
   if (keyCode === 68) {
     satellite.setRotation(0.1);
-  } else if (keyCode === 65) {
+  } if(keyCode === 65) {
     satellite.setRotation(-0.1);
-  } else if (keyCode === 87) {
+  } if(keyCode === 87) {
     satellite.goingForward(true);
   }
 }

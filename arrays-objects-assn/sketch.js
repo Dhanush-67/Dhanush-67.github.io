@@ -89,7 +89,7 @@ function draw() {
     isHit = !isHit;
   }
 
-  if (score <= 0){
+  if (score <= -500){
     state = "EndScreen";
   }
 
@@ -130,7 +130,7 @@ function draw() {
     checkCollision();
   } 
 
-  console.log(score);
+  //console.log(score);
 }
 
 
@@ -279,6 +279,7 @@ function displayTurret(){
     let theTurret = turrets[i];
     push();
     ufoAngle = atan2(theTurret.x - ufoPos.x, theTurret.y - ufoPos.y);
+    console.log(ufoAngle)
     translate(theTurret.x,theTurret.y);
     rotate(-ufoAngle);
     imageMode(CENTER);
