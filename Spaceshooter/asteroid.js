@@ -1,4 +1,4 @@
-function Asteroid(pos){
+function Asteroid(){
   this.pos = createVector(random(0,150),random(height));
   
   this.vel = p5.Vector.random2D();
