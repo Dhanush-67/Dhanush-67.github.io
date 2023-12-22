@@ -18,6 +18,7 @@
 - [Collision Demo](collisiondemo)
 - [p5 Play](p5play)
 - [OOP pair programming lab](pairprogramming)
+- [Recurssive circles](circle-recursion)
 
 ## Projects
 - [Space Shooter](Spaceshooter)
