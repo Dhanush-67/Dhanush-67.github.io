@@ -51,3 +51,5 @@ function displayCircle(){
     circle(thisRect.x,2,10);
   }
 }
+
+
