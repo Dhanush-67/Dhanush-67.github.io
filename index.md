@@ -19,6 +19,7 @@
 - [p5 Play](p5play)
 - [OOP pair programming lab](pairprogramming)
 - [Recurssive circles](circle-recursion)
+- [Sirpinski triangle](sirpinski)
 
 ## Projects
 - [Space Shooter](Spaceshooter)
