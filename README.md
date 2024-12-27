@@ -1,1 +1,1 @@
-# js-Projects-and-Exercises
+# cs30-js-Projects-and-Exercises
